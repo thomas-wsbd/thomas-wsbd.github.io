@@ -1,0 +1,126 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>posts/ on Thomas Deurloo</title>
+        <link>https://thomas-wsbd.github.io/posts/</link>
+        <description>Recent content in posts/ on Thomas Deurloo</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+        <lastBuildDate>Wed, 09 Apr 2014 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://thomas-wsbd.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Extreme value statistics</title>
+            <link>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</link>
+            <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>
+            
+            <guid>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</guid>
+            <description>Introductie extreme waarde statistiek met python Disclaimer: ik ben geen statisticus.
+Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen. In een vorig leven heb ik wel is extreme waarde statistiek toegepast met de R-package extRemes (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu maar is in python gedaan. Het bleek lastiger dan ik dacht om goede voorbeelden en packages te vinden vandaar dit artikel.</description>
+            <content type="html"><![CDATA[
+
+<h1 id="introductie-extreme-waarde-statistiek-met-python">Introductie extreme waarde statistiek met python</h1>
+
+<p>Disclaimer: ik ben geen statisticus.</p>
+
+<p>Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen. In een vorig leven heb ik wel is extreme waarde statistiek toegepast met de R-package <a href="https://cran.r-project.org/web/packages/extRemes/index.html" target="_blank">extRemes</a> (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu maar is in python gedaan. Het bleek lastiger dan ik dacht om goede voorbeelden en packages te vinden vandaar dit artikel.</p>
+
+<h2 id="extreme-waarde-statistiek-wat-is-dat">Extreme waarde statistiek, wat is dat?</h2>
+
+<p>Op naar <a href="https://nl.wikipedia.org/wiki/Extreme_waarde_(kansrekening)">Wikipedia</a><br />
+<em>In de kansrekening en de statistiek is een extreme waarde het maximum of het minimum in een aselecte steekproef. In de theorie over extreme waarden bestudeert men de mogelijke verdeling van de extreme waarden.</em></p>
+
+<p><em>Centraal in de theorie staat het resultaat dat onder bepaalde voorwaarden als limietverdeling voor een extreme waarde slechts drie verdelingen mogelijk zijn, onafhankelijk van de oorspronkelijke verdeling in de steekproef.</em></p>
+
+<p>Ok, ok, extreme waarde statistiek gaat dus over evenementen die ver afwijken van het standaard gedrag, logisch, extremen. Daarbij is er ook vaak het doel om iets te zeggen over extremen die we nog niet hebben waargenomen, extrapolatie. Daarom fitten we een extreme waardeverdeling (zoals bijv. Gumbel) op onze geobserveerde extremenwaardenset. Als we een extreme waardeverdeling hebben die goed past kunnen we iets zeggen over herhalingstijden en overschrijdingskansen, super mooi!</p>
+
+<p>Extreme waardestatistiek wordt in de hydrologie bijvoorbeeld toegepast bij extreme neerslag of afvoer. Buiten de hydrologie kan je denken aan bijv. in de klimatologie extreme golfhoogtes, tornado&rsquo;s, maar ook in de bouw of financiele sector wordt extreme waarde statistiek toegepast.</p>
+
+<p>Hier gaan we kijken naar debieten, dus afvoeren van de Rijn bij Lobith, omdat dit een set is waar iedereen makkelijk bij kan. De set kan je downloaden op <a href="https://waterinfo.rws.nl/#!/nav/bulkdownload/alle-groepen/" target="_blank">Waterinfo</a>.</p>
+
+<h2 id="data-inladen-en-visualiseren">Data inladen en visualiseren</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> requests
+
+<span style="color:#f92672">%</span>matplotlib inline
+
+q <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;lobith.csv&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;;&#39;</span>, decimal<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;iso-8859-1&#39;</span>, 
+                  parse_dates<span style="color:#f92672">=</span>[[<span style="color:#e6db74">&#39;WAARNEMINGDATUM&#39;</span>, <span style="color:#e6db74">&#39;WAARNEMINGTIJD&#39;</span>]],
+                  infer_datetime_format<span style="color:#f92672">=</span>True, dayfirst<span style="color:#f92672">=</span>True, 
+                  usecols<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;MEETPUNT_IDENTIFICATIE&#39;</span>, <span style="color:#e6db74">&#39;WAARNEMINGDATUM&#39;</span>, <span style="color:#e6db74">&#39;WAARNEMINGTIJD&#39;</span>, <span style="color:#e6db74">&#39;NUMERIEKEWAARDE&#39;</span>],
+                 )
+q <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>set_index([<span style="color:#e6db74">&#39;MEETPUNT_IDENTIFICATIE&#39;</span>, <span style="color:#e6db74">&#39;WAARNEMINGDATUM_WAARNEMINGTIJD&#39;</span>]) <span style="color:#75715e"># ik gebruik hier mijn standaard om rws data in </span>
+<span style="color:#75715e"># te laden dan kan je ook sets met meerdere meetpunten uit een csv in een keer simpel inladen</span>
+lobith <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>loc[<span style="color:#e6db74">&#39;Lobith&#39;</span>] <span style="color:#75715e"># juiste meetpunt selecteren</span>
+lobith <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;d&#39;</span>)<span style="color:#f92672">.</span>mean() <span style="color:#75715e"># 10-min data hebben we niet nodig</span>
+lobith <span style="color:#f92672">=</span> lobith[lobith <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">99999</span>] <span style="color:#75715e"># nan-values zijn niet eenduidig (zitten in de orde 10e36-37) dus selecteer de logische waardes</span>
+lobith <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>squeeze() <span style="color:#75715e"># maak er een series van</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> seaborn <span style="color:#f92672">as</span> sns
+
+<span style="color:#75715e"># plotje om idee te krijgen van de reeks</span>
+fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">16</span>,<span style="color:#ae81ff">9</span>))
+sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>lobith<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>year<span style="color:#f92672">.</span>values, y<span style="color:#f92672">=</span>lobith<span style="color:#f92672">.</span>values, ax<span style="color:#f92672">=</span>ax[<span style="color:#ae81ff">0</span>])
+ax[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;jaren&#39;</span>)
+ax[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;debiet bij lobith (m3/s)&#39;</span>)
+sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>lobith<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>month<span style="color:#f92672">.</span>values, y<span style="color:#f92672">=</span>lobith<span style="color:#f92672">.</span>values, ax<span style="color:#f92672">=</span>ax[<span style="color:#ae81ff">1</span>])
+ax[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;maanden&#39;</span>)
+ax[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;debiet bij lobith (m3/s)&#39;</span>);</code></pre></div>
+<p><img src="/static/img/output_2_0.png" alt="png" /></p>
+
+<h2 id="jaarlijkse-maxima-of-peak-over-threshold">Jaarlijkse maxima of peak-over-threshold</h2>
+
+<p>Het makkelijkste is om gewoon alle maxima per jaar te selecteren, dit kan simpel in pandas door bijvoorbeeld te resamplen. Peak-over-threshold is iets lastiger omdat je alleen onafhankelijke evenementen wil, een extreme afvoer kan meerdere dagen duren, je wil dan enkel het maximum hebben. Gelukkig heeft scipy een oplossing <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html" target="_blank">find_peaks</a>, hier kan je een distance aangeven ofwel hoever dienen pieken minimaal uit elkaar te liggen. Je peak-over-threshold zou een vergelijkbaar aantal extreme waarden moeten hebben als het aantal jaar, dus speel een beetje met de quantiles.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> scipy.signal <span style="color:#f92672">import</span> find_peaks
+
+am <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>loc[lobith<span style="color:#f92672">.</span>groupby(lobith<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>year)<span style="color:#f92672">.</span>idxmax()<span style="color:#f92672">.</span>dropna()<span style="color:#f92672">.</span>values] <span style="color:#75715e"># annual maximum methode, groepeer per jaar en </span>
+<span style="color:#75715e"># gebruik de index van het maxima</span>
+pot <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>iloc[find_peaks(lobith, height<span style="color:#f92672">=</span>lobith<span style="color:#f92672">.</span>quantile(<span style="color:#ae81ff">0.98</span>), distance<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>)[<span style="color:#ae81ff">0</span>]] <span style="color:#75715e">#peak-over-threshold methode, gebruikt</span>
+<span style="color:#75715e"># kwantielen om een indicatie te krijgen voor hoge afvoeren, hier 98% kwantiel, en pieken moeten minimaal een week uit elkaar</span>
+<span style="color:#75715e"># liggen</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;lengte annual maximum:&#39;</span>, len(am), <span style="color:#e6db74">&#39; lengte peak-over-threshold:&#39;</span>, len(pot))</code></pre></div>
+<pre><code>lengte annual maximum: 112  lengte peak-over-threshold: 131
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ax <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">16</span>,<span style="color:#ae81ff">11</span>), label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;measured&#39;</span>)
+am<span style="color:#f92672">.</span>plot(style<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;o&#39;</span>, markersize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, ax<span style="color:#f92672">=</span>ax, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;annual maximum&#39;</span>)
+pot<span style="color:#f92672">.</span>plot(style<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;o&#39;</span>, ax<span style="color:#f92672">=</span>ax, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;peak-over-threshold&#39;</span>)
+plt<span style="color:#f92672">.</span>legend();</code></pre></div>
+<p><img src="/static/img/output_6_0.png" alt="png" /></p>
+
+<h2 id="de-statistiek">De statistiek</h2>
+
+<p>Eindelijk de statistiek, ik heb de package <a href="https://pypi.org/project/lmoments3/" target="_blank">lmoments3</a>, die kan wat ik wil. Hieronder de resultaten voor 3 van de bekendere extremewaarde verdelingen voor debieten, voor zowel de annual maxima methode als de peak-over-threshold methode. De package heeft nog veel meer verdelingen om mee te spelen.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> lmoments3 <span style="color:#f92672">import</span> distr
+
+fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">9</span>))
+<span style="color:#66d9ef">for</span> idx, data <span style="color:#f92672">in</span> enumerate([pot, am]):
+    theta <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>gev<span style="color:#f92672">.</span>lmom_fit(data) <span style="color:#75715e"># fit gev op de geprepareerde pot-data</span>
+    gev <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>gev(<span style="color:#f92672">**</span>theta) <span style="color:#75715e"># bereken de verdeling met de parameters uit de fit</span>
+    theta <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>gum<span style="color:#f92672">.</span>lmom_fit(data)
+    gum <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>gum(<span style="color:#f92672">**</span>theta)
+    theta <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>pe3<span style="color:#f92672">.</span>lmom_fit(data)
+    pe3 <span style="color:#f92672">=</span> distr<span style="color:#f92672">.</span>pe3(<span style="color:#f92672">**</span>theta)
+
+    T <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">999.1</span>, <span style="color:#ae81ff">0.1</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># herhalingstijden van T1 tot T1000</span>
+    ax[idx]<span style="color:#f92672">.</span>plot(T, gev<span style="color:#f92672">.</span>ppf(<span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span>T), <span style="color:#e6db74">&#39;g&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;GEV&#39;</span>) <span style="color:#75715e"># ppf ofwel percent point feature, gebruiken om de debieten bij de herhalings</span>
+    <span style="color:#75715e"># tijden te bepalen, 1.0-1./T -&gt; overschrijdingskans</span>
+    ax[idx]<span style="color:#f92672">.</span>plot(T, gum<span style="color:#f92672">.</span>ppf(<span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span>T), <span style="color:#e6db74">&#39;r&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Gumbel&#39;</span>)
+    ax[idx]<span style="color:#f92672">.</span>plot(T, pe3<span style="color:#f92672">.</span>ppf(<span style="color:#ae81ff">1.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span>T), <span style="color:#e6db74">&#39;b&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Pearson 3&#39;</span>)
+
+    N <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">1</span>, len(data)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#75715e"># array met van 1 tot n+1, 1.0 want moeten floats zijn</span>
+    Nmax <span style="color:#f92672">=</span> max(N) <span style="color:#75715e"># aantal datapunten + 1</span>
+
+    ax[idx]<span style="color:#f92672">.</span>scatter(Nmax<span style="color:#f92672">/</span>N, sorted(data)[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;black&#39;</span>, facecolors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Empirical&#39;</span>) <span style="color:#75715e"># T = rank datapunt / </span>
+    <span style="color:#75715e"># (1 + lengte datapunten), daarom dus punten sorteren van hoog naar laag en bijbehorende herhalings tijd is idx / Nmax</span>
+    ax[idx]<span style="color:#f92672">.</span>set_xscale(<span style="color:#e6db74">&#39;log&#39;</span>)
+    ax[idx]<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Herhalingstijd logaritmisch (jaar)&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;large&#39;</span>)
+    ax[idx]<span style="color:#f92672">.</span>legend()
+ax[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Debiet bij Lobith (m3/s)&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;large&#39;</span>)
+ax[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Peak-over-Threshold&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x-large&#39;</span>)
+ax[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Annual Maximum&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x-large&#39;</span>)
+fig<span style="color:#f92672">.</span>suptitle(<span style="color:#e6db74">&#39;Extreme waarde statistiek afvoer bij Lobith (T1-T100)&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;xx-large&#39;</span>)
+plt<span style="color:#f92672">.</span>show()</code></pre></div>
+<p><img src="/static/img/output_8_0.png" alt="png" /></p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>
