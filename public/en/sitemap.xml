@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/hydrologie/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/python/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/statistiek/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="nl"
+                href="https://thomas-wsbd.github.io/nl/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thomas-wsbd.github.io/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="nl"
+                href="https://thomas-wsbd.github.io/nl/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thomas-wsbd.github.io/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/about/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/posts/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="nl"
+                href="https://thomas-wsbd.github.io/nl/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thomas-wsbd.github.io/categories/"
+                />
+  </url>
+  
+</urlset>
