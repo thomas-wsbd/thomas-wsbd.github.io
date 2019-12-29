@@ -6,10 +6,19 @@
     <description>Recent content on Thomas Deurloo</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 09 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://thomas-wsbd.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Python for engineers, the basics</title>
+      <link>https://thomas-wsbd.github.io/posts/2019/12/python-for-engineers-the-basics/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://thomas-wsbd.github.io/posts/2019/12/python-for-engineers-the-basics/</guid>
+      <description>Python for engineers, een basis cursus met notebooks Afgelopen maand het ik de eer gehad om mijn collega&amp;rsquo;s mee te nemen in de wonderlijke wereld van python. In een 5-tal middagen hebben we de &amp;ldquo;basis&amp;rdquo; van python behandeld (ja dit is erg kort en de stof was eigenlijk teveel voor deze middagen). Hiervoor heb ik verschillende notebooks opgesteld (in het Nederlands) die de basis (wat mij betreft) voor het gebruik van python in een technische omgeving behandelen.</description>
+    </item>
     
     <item>
       <title>Extreme value statistics</title>
@@ -18,7 +27,7 @@
       
       <guid>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</guid>
       <description>Introductie extreme waarde statistiek met python Disclaimer: ik ben geen statisticus.
-Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen. In een vorig leven heb ik wel is extreme waarde statistiek toegepast met de R-package extRemes (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu maar is in python gedaan. Het bleek lastiger dan ik dacht om goede voorbeelden en packages te vinden vandaar dit artikel.</description>
+Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen (bij het waterschap). In een vorig leven (lees universiteit) heb ik wel is extreme waarde statistiek toegepast met de R-package extRemes (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu in python geprobeerd. Het bleek lastig om goede voorbeelden en packages te vinden, vandaar dit artikel.</description>
     </item>
     
     <item>

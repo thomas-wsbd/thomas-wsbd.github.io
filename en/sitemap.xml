@@ -3,28 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://thomas-wsbd.github.io/posts/2019/12/python-for-engineers-the-basics/</loc>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</loc>
     <lastmod>2019-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://thomas-wsbd.github.io/tags/hydrologie/</loc>
-    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <loc>https://thomas-wsbd.github.io/tags/basis/</loc>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/cursus/</loc>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://thomas-wsbd.github.io/tags/python/</loc>
-    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://thomas-wsbd.github.io/tags/statistiek/</loc>
-    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://thomas-wsbd.github.io/tags/</loc>
-    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="nl"
@@ -39,7 +44,7 @@
   
   <url>
     <loc>https://thomas-wsbd.github.io/</loc>
-    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="nl"
@@ -50,6 +55,16 @@
                 hreflang="en"
                 href="https://thomas-wsbd.github.io/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/hydrologie/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://thomas-wsbd.github.io/tags/statistiek/</loc>
+    <lastmod>2019-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>

@@ -6,10 +6,37 @@
     <description>Recent content in Tags on Thomas Deurloo</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 09 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://thomas-wsbd.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>basis</title>
+      <link>https://thomas-wsbd.github.io/tags/basis/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://thomas-wsbd.github.io/tags/basis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cursus</title>
+      <link>https://thomas-wsbd.github.io/tags/cursus/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://thomas-wsbd.github.io/tags/cursus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://thomas-wsbd.github.io/tags/python/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://thomas-wsbd.github.io/tags/python/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>hydrologie</title>
@@ -17,15 +44,6 @@
       <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>https://thomas-wsbd.github.io/tags/hydrologie/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://thomas-wsbd.github.io/tags/python/</link>
-      <pubDate>Sat, 09 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://thomas-wsbd.github.io/tags/python/</guid>
       <description></description>
     </item>
     

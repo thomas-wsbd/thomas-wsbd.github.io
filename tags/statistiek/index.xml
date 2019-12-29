@@ -18,7 +18,7 @@
       
       <guid>https://thomas-wsbd.github.io/posts/2019/11/extreme-value-statistics/</guid>
       <description>Introductie extreme waarde statistiek met python Disclaimer: ik ben geen statisticus.
-Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen. In een vorig leven heb ik wel is extreme waarde statistiek toegepast met de R-package extRemes (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu maar is in python gedaan. Het bleek lastiger dan ik dacht om goede voorbeelden en packages te vinden vandaar dit artikel.</description>
+Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen (bij het waterschap). In een vorig leven (lees universiteit) heb ik wel is extreme waarde statistiek toegepast met de R-package extRemes (aanrader), omdat ik op mijn werk enkel beschikking heb tot python, het nu in python geprobeerd. Het bleek lastig om goede voorbeelden en packages te vinden, vandaar dit artikel.</description>
     </item>
     
   </channel>
