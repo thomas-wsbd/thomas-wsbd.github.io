@@ -61,7 +61,7 @@ Ik was op zoek naar extreme waarde statistiek voor onze debietreeksen (bij het w
 
 <h2 id="data-inladen-en-visualiseren">Data inladen en visualiseren</h2>
 
-<p>Nu wat python, zie hieronder. Lobith heeft een normale verdeling voor een rivier. Wordt niet nul en heeft een lange staart naar de extremen kant, meest voorkomende afvoer ligt rond de 2.000 m3/s met extremen naar de 12.000 m3/s. In de verdeling over het jaar zie dat hoge afvoeren voorkomen van november tot januari (vooral regen) en van maart tot juni (smeltwater en regen). In de maanden juli tot oktober is de afvoer over het algemeen niet extreem.</p>
+<p>Nu wat python, zie hieronder figuur met verdeling van de debieten (histogram) en verdeling van de debieten over het jaar gemiddeld (boxplot). Lobith heeft een redelijk normale verdeling voor een rivier; de afvoer wordt niet nul en heeft een lange staart naar de extreme kant, meest voorkomende afvoer ligt rond de 2.000 m3/s met extremen naar de 12.000 m3/s. In de verdeling over het jaar zie je dat hogere afvoeren vooral voorkomen van november tot januari (vooral veroorzaakt door regen) en van maart tot juni (veroorzaakt door combinatie van smeltwater en regen). In de maanden juli tot oktober is de afvoer over het algemeen niet extreem.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
 <span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
 <span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
@@ -100,7 +100,7 @@ fig<span style="color:#f92672">.</span>tight_layout();</code></pre></div>
 
 <h2 id="jaarlijkse-maxima-of-peak-over-threshold">Jaarlijkse maxima of peak-over-threshold</h2>
 
-<p>De makkelijkste manier om extremen te selecteren is om gewoon jaarmaxima te selecteren, dit kan simpel in pandas door bijvoorbeeld te resamplen. Peak-over-threshold is iets lastiger omdat je alleen onafhankelijke evenementen wil selecteren, een extreme afvoer kan meerdere dagen duren, je wil dan enkel het maximum hebben. Gelukkig heeft scipy een oplossing <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html" target="_blank">find_peaks</a>, hier kan je een <code>distance</code> aangeven ofwel hoever dienen pieken minimaal uit elkaar te liggen. Je peak-over-threshold zou een vergelijkbaar aantal extreme waarden moeten hebben als het aantal jaar, dus speel een beetje met de <code>quantiles</code>.</p>
+<p>De makkelijkste manier om extremen te selecteren is om de maximale afvoer van elk jaar te selecteren, dit kan simpel in pandas door bijvoorbeeld te resamplen. Peak-over-threshold is iets lastigere methode omdat je alleen onafhankelijke evenementen wil selecteren, een extreme afvoer kan (en zal meestal) meerdere dagen duren, je wil dan enkel het maximum hebben. Gelukkig heeft <code>scipy</code> een oplossing <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html" target="_blank">find_peaks</a>, hier kan je een <code>distance</code> aangeven ofwel hoever dienen pieken minimaal uit elkaar te liggen. Je peak-over-threshold zou een vergelijkbaar aantal extreme waarden moeten hebben als het aantal jaar, dus speel een beetje met de <code>quantiles</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> scipy.signal <span style="color:#f92672">import</span> find_peaks
 
 am <span style="color:#f92672">=</span> lobith<span style="color:#f92672">.</span>loc[lobith<span style="color:#f92672">.</span>groupby(lobith<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>year)<span style="color:#f92672">.</span>idxmax()<span style="color:#f92672">.</span>dropna()<span style="color:#f92672">.</span>values] <span style="color:#75715e"># annual maximum methode, groepeer per jaar en </span>
@@ -158,7 +158,7 @@ plt<span style="color:#f92672">.</span>show()</code></pre></div>
 
 <h2 id="conclusie">Conclusie</h2>
 
-<p>Zoals je in het plaatje hierboven kan zien zijn er flinke verschillen tussen de verdelingen en tussen de annual maxima en pot methode. Voor een herhalingstijd T1000, zijn waardes tussen de 12.000 en 18.000 m3/s bepaald, dit is nog een erg groot bereik.</p>
+<p>Zoals je in het plaatje hierboven kan zien zijn er flinke verschillen tussen de geselecteerde verdelingen en tussen de annual maxima en pot methode. Voor een herhalingstijd T1000, zijn waardes tussen de 12.000 en 18.000 m3/s bepaald, dit is een groot bereik. Je zou de analyse nog verder uit kunnen breiden door bijvoorbeeld samples uit de reeks (<code>bootstrapping</code>) te gebruiken, hiermee zou je ook een bandbreedte (<code>confidence interval</code>) kunnen bepalen.</p>
 ]]></content>
         </item>
         
